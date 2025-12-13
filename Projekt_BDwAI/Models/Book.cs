@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Projekt_BDwAI.Models
 {
@@ -10,11 +12,12 @@ namespace Projekt_BDwAI.Models
 
         public string Author { get; set; }
 
+        [Column(TypeName = "nvarchar(13)")]
         public string ISBN { get; set; }
 
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
-        public int AvailableCopies { get; set; }
+
     }
 }
