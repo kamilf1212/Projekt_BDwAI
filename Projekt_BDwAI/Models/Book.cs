@@ -10,7 +10,8 @@ namespace Projekt_BDwAI.Models
 
         public string Title { get; set; }
 
-        public string Author { get; set; }
+        public int AuthorId { get; set; }
+        public Author Author { get; set; }
 
         [Column(TypeName = "nvarchar(13)")]
         public string ISBN { get; set; }

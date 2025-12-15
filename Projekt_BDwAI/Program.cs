@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Projekt_BDwAI.Areas.Identity.Data;
+using Projekt_BDwAI.Data;
 using Projekt_BDwAI.Models;
 
 namespace Projekt_BDwAI

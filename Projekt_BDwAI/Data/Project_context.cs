@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Projekt_BDwAI.Areas.Identity.Data;
+using Projekt_BDwAI.Models;
 
-namespace Projekt_BDwAI.Areas.Identity.Data;
+namespace Projekt_BDwAI.Data;
 
 public class Project_context : IdentityDbContext<User>
 {
@@ -12,6 +13,12 @@ public class Project_context : IdentityDbContext<User>
         : base(options)
     {
     }
+
+    // Add DbSet properties for domain models
+    public DbSet<Author> Authors { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Book> Books { get; set; }
+    public DbSet<Loan> Loans { get; set; }
 
     private class UserEntityConfiguration :
     IEntityTypeConfiguration<User>
