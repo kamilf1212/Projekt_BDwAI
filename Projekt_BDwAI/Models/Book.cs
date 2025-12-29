@@ -8,16 +8,22 @@ namespace Projekt_BDwAI.Models
     {
         public int Id { get; set; }
 
+        [Required]
+        [StringLength(200)]
         public string Title { get; set; }
 
+        [Required]
+        [StringLength(100)]
         public int AuthorId { get; set; }
         public Author Author { get; set; }
 
-        [Column(TypeName = "nvarchar(13)")]
+        [Required]
+        [RegularExpression(@"^[0-9\-]+$", ErrorMessage = "Nieprawidłowy format ISBN")]
         public string ISBN { get; set; }
 
+        [Required]
+        [Display(Name = "Kategoria")]
         public int CategoryId { get; set; }
-
         public Category Category { get; set; }
 
     }
