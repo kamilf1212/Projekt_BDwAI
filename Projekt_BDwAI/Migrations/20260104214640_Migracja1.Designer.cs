@@ -11,8 +11,8 @@ using Projekt_BDwAI.Data;
 namespace Projekt_BDwAI.Migrations
 {
     [DbContext(typeof(Project_context))]
-    [Migration("20260104111010_PendingChanges")]
-    partial class PendingChanges
+    [Migration("20260104214640_Migracja1")]
+    partial class Migracja1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -173,10 +173,12 @@ namespace Projekt_BDwAI.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
+                        .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")
@@ -231,10 +233,12 @@ namespace Projekt_BDwAI.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Biography")
+                        .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -249,6 +253,7 @@ namespace Projekt_BDwAI.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("AuthorId")
+                        .HasMaxLength(100)
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("CategoryId")
@@ -260,6 +265,7 @@ namespace Projekt_BDwAI.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -277,8 +283,14 @@ namespace Projekt_BDwAI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

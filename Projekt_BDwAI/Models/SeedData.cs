@@ -7,11 +7,12 @@ namespace Projekt_BDwAI.Models
 {
     public class SeedData
     {
-        public static async void Initialize(IServiceScope scope)
+        public static async Task InitializeAsync(IServiceScope scope)
         {
             var services = scope.ServiceProvider;
 
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            
             var roles = new[] { "Admin", "User" };
             foreach (var role in roles)
             {
@@ -22,6 +23,7 @@ namespace Projekt_BDwAI.Models
             }
 
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+            
             string email = "admin@admin.com";
             string password = "Admin123!";
             if (await userManager.FindByEmailAsync(email) == null)

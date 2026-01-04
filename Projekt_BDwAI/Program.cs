@@ -13,6 +13,9 @@ namespace Projekt_BDwAI
             var builder = WebApplication.CreateBuilder(args);
             var connectionString = builder.Configuration.GetConnectionString("Project_contextConnection") ?? throw new InvalidOperationException("Connection string 'Project_contextConnection' not found."); ;
 
+
+            //builder.Services.AddDbContext<Project_context>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
             builder.Services.AddDbContext<Project_context>(options => options.UseSqlite(connectionString));
 
             // required confirmed account false to login without email confirmation
@@ -56,7 +59,8 @@ namespace Projekt_BDwAI
                 var db = scope.ServiceProvider.GetRequiredService<Project_context>();
                 await db.Database.MigrateAsync(); // apply migrations
 
-                await Task.Run(() => SeedData.Initialize(scope));
+                await SeedData.InitializeAsync(scope);
+                //await Task.Run(() => SeedData.Initialize(scope));
             }
 
             app.Run();
