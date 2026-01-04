@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Projekt_BDwAI.Data;
 
@@ -10,9 +11,11 @@ using Projekt_BDwAI.Data;
 namespace Projekt_BDwAI.Migrations
 {
     [DbContext(typeof(Project_context))]
-    partial class Project_contextModelSnapshot : ModelSnapshot
+    [Migration("20260104111010_PendingChanges")]
+    partial class PendingChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.1");
@@ -228,12 +231,10 @@ namespace Projekt_BDwAI.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Biography")
-                        .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -248,7 +249,6 @@ namespace Projekt_BDwAI.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("AuthorId")
-                        .HasMaxLength(100)
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("CategoryId")
@@ -260,7 +260,6 @@ namespace Projekt_BDwAI.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -278,14 +277,8 @@ namespace Projekt_BDwAI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
