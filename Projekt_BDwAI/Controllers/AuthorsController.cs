@@ -54,7 +54,7 @@ namespace Projekt_BDwAI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Biography")] Author author)
+        public async Task<IActionResult> Create(/*[Bind("Id,Name,Biography")]*/ Author author)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +63,18 @@ namespace Projekt_BDwAI.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(author);
+            //if (!ModelState.IsValid)
+            //{
+            //    foreach (var error in ModelState)
+            //    {
+            //        Console.WriteLine($"moj error {error.Key}: {string.Join(", ", error.Value.Errors.Select(e => e.ErrorMessage))}");
+            //    }
+            //    return View(author);
+            //}
+
+            //_context.Authors.Add(author);
+            //await _context.SaveChangesAsync();
+            //return RedirectToAction(nameof(Index));
         }
 
         // GET: Authors/Edit/5
