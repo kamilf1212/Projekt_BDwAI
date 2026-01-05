@@ -13,6 +13,6 @@ namespace Projekt_BDwAI.Models
         [StringLength(1000)]
         public string? Description { get; set; }
 
-        public ICollection<Book>? Books { get; set; }
+        public ICollection<Book> Books { get; set; } = new List<Book>();
     }
 }

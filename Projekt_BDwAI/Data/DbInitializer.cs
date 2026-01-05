@@ -40,7 +40,7 @@ public static class DbInitializer
                 new Book
                 {
                     Title = "Pan Tadeusz",
-                    ISBN = "1234567890",
+                    ISBN = 1234567890,
                     AuthorId = author1.Id,
                     CategoryId = category1.Id
                 }

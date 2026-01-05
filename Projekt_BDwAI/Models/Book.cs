@@ -15,16 +15,16 @@ namespace Projekt_BDwAI.Models
         [Required]
         [StringLength(100)]
         public int AuthorId { get; set; }
-        public Author? Author { get; set; }
+        public Author Author { get; set; }
 
         [Required]
-        //[RegularExpression(@"^[0-9\-]+$", ErrorMessage = "Nieprawidłowy format ISBN")]
+        [StringLength(13, MinimumLength = 13, ErrorMessage = "ISBN musi mieć 13 znaków.")]
         public int ISBN { get; set; }
 
         [Required]
         [Display(Name = "Kategoria")]
         public int CategoryId { get; set; }
-        public Category? Category { get; set; }
+        public Category Category { get; set; }
 
     }
 }
