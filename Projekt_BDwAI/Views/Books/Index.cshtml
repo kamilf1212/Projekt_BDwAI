@@ -46,6 +46,21 @@
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <form asp-controller="Loans"
+                              asp-action="Create"
+                              method="post"
+                              style="display:inline">
+
+                            <input type="hidden" name="bookId" value="@item.Id" />
+
+                            <button type="submit"
+                                    class="btn btn-sm btn-success ms-2">
+                                Wypożycz
+                            </button>
+                        </form>
+                    }
             </td>
         </tr>
 }

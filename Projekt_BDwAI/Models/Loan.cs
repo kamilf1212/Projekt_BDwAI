@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Projekt_BDwAI.Areas.Identity.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace Projekt_BDwAI.Models
 {
@@ -8,14 +9,15 @@ namespace Projekt_BDwAI.Models
 
         [Required]
         public int BookId { get; set; }
-        public Book Book { get; set; }
+        public Book? Book { get; set; }
 
         [Required]
         public string UserId { get; set; }
+        public User? User { set; get; }
 
         [Required]
         [DataType(DataType.Date)]
-        public DateTime LoanDate { get; set; }
+        public DateTime LoanDate { get; set; } = DateTime.Now;
 
         [DataType(DataType.Date)]
         public DateTime? ReturnDate { get; set; }

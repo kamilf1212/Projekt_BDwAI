@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Projekt_BDwAI.Areas.Identity.Data;
 using Projekt_BDwAI.Data;
 using Projekt_BDwAI.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+
 
 namespace Projekt_BDwAI
 {

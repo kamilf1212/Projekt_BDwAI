@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Projekt_BDwAI.Data;
 using Projekt_BDwAI.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Projekt_BDwAI.Controllers
 {
@@ -18,6 +20,19 @@ namespace Projekt_BDwAI.Controllers
         {
             _context = context;
         }
+
+        public async Task<IActionResult> MyLoans()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var loans = await _context.Loans
+                .Include(l => l.Book)
+                .Where(l => l.UserId == userId && l.ReturnDate == null)
+                .ToListAsync();
+
+            return View(loans);
+        }
+
 
         // GET: Loans
         public async Task<IActionResult> Index()
@@ -46,6 +61,7 @@ namespace Projekt_BDwAI.Controllers
         }
 
         // GET: Loans/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["BookId"] = new SelectList(_context.Books, "Id", "ISBN");
@@ -55,18 +71,40 @@ namespace Projekt_BDwAI.Controllers
         // POST: Loans/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,BookId,UserId,LoanDate,ReturnDate")] Loan loan)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(loan);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["BookId"] = new SelectList(_context.Books, "Id", "ISBN", loan.BookId);
+        //    return View(loan);
+        //}
+
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,BookId,UserId,LoanDate,ReturnDate")] Loan loan)
+        public async Task<IActionResult> Create(int bookId)
         {
-            if (ModelState.IsValid)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+                return Unauthorized();
+
+            var loan = new Loan
             {
-                _context.Add(loan);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "ISBN", loan.BookId);
-            return View(loan);
+                BookId = bookId,
+                UserId = userId
+            };
+
+            _context.Loans.Add(loan);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(MyLoans));
         }
 
         // GET: Loans/Edit/5
