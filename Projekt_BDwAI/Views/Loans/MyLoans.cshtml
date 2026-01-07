@@ -2,24 +2,42 @@
 
 <h2>Moje wypożyczenia</h2>
 
-@if (!Model.Any())
-{
-    <p>Nie masz żadnych wypożyczeń.</p>
-}
-else
-{
-    <table class="table">
-        <tr>
-            <th>Książka</th>
-            <th>Data wypożyczenia</th>
-        </tr>
+<table class="table">
+    <tr>
+        <th>Książka</th>
+        <th>Data wypożyczenia</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
 
-        @foreach (var loan in Model)
-        {
-            <tr>
-                <td>@loan.Book.Title</td>
-                <td>@loan.LoanDate.ToShortDateString()</td>
-            </tr>
-        }
-    </table>
-}
+    @foreach (var loan in Model)
+    {
+        <tr>
+            <td>@loan.Book.Title</td>
+            <td>@loan.LoanDate.ToShortDateString()</td>
+            <td>
+                @if (loan.ReturnDate == null)
+                {
+                    <span class="text-warning">Wypożyczona</span>
+                }
+                else
+                {
+                    <span class="text-success">
+                        Oddana (@loan.ReturnDate.Value.ToShortDateString())
+                    </span>
+                }
+            </td>
+            <td>
+                @if (loan.ReturnDate == null)
+                {
+                    <form asp-action="Return" method="post">
+                        <input type="hidden" name="id" value="@loan.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            Oddaj
+                        </button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+</table>

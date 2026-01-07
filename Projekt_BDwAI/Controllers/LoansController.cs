@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Projekt_BDwAI.Data;
 using Projekt_BDwAI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using Projekt_BDwAI.Areas.Identity.Data;
+
 
 namespace Projekt_BDwAI.Controllers
 {
@@ -16,15 +15,20 @@ namespace Projekt_BDwAI.Controllers
     public class LoansController : Controller
     {
         private readonly Project_context _context;
+        private readonly UserManager<User> _userManager;
 
-        public LoansController(Project_context context)
+        public LoansController(Project_context context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> MyLoans()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = _userManager.GetUserId(User);
+
+            if (userId == null)
+                return Unauthorized();
 
             var loans = await _context.Loans
                 .Include(l => l.Book)
@@ -32,6 +36,34 @@ namespace Projekt_BDwAI.Controllers
                 .ToListAsync();
 
             return View(loans);
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Return(int id)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            if (userId == null)
+                return Unauthorized();
+
+            var loan = await _context.Loans
+                .Include(l => l.Book)
+                .FirstOrDefaultAsync(l => l.Id == id && l.UserId == userId);
+
+            if (loan == null)
+                return NotFound();
+
+            if (loan.ReturnDate != null)
+                return BadRequest("Książka już została oddana.");
+
+            loan.ReturnDate = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(MyLoans));
         }
 
 
@@ -89,7 +121,7 @@ namespace Projekt_BDwAI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int bookId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = _userManager.GetUserId(User);
 
             if (userId == null)
                 return Unauthorized();
@@ -97,7 +129,8 @@ namespace Projekt_BDwAI.Controllers
             var loan = new Loan
             {
                 BookId = bookId,
-                UserId = userId
+                UserId = userId,
+                LoanDate = DateTime.Now
             };
 
             _context.Loans.Add(loan);

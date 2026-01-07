@@ -29,18 +29,24 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Books" asp-action="Index">Lista książek</a>
                         </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Books" asp-action="Create">Dodaj książkę</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Authors" asp-action="Create">Dodaj autora</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Categories" asp-action="Create">Dodaj kategorię</a>
-                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Books" asp-action="Create">Dodaj książkę</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Authors" asp-action="Create">Dodaj autora</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Categories" asp-action="Create">Dodaj kategorię</a>
+                            </li>
+                        }
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
