@@ -68,6 +68,7 @@ namespace Projekt_BDwAI.Controllers
 
 
         // GET: Loans
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var project_context = _context.Loans.Include(l => l.Book);
@@ -103,20 +104,6 @@ namespace Projekt_BDwAI.Controllers
         // POST: Loans/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,BookId,UserId,LoanDate,ReturnDate")] Loan loan)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(loan);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["BookId"] = new SelectList(_context.Books, "Id", "ISBN", loan.BookId);
-        //    return View(loan);
-        //}
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int bookId)
