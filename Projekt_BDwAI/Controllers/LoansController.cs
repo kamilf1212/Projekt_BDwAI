@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Projekt_BDwAI.Controllers
 {
+    [Authorize(Roles = "Admin,User")]
     public class LoansController : Controller
     {
         private readonly Project_context _context;
@@ -61,7 +62,6 @@ namespace Projekt_BDwAI.Controllers
         }
 
         // GET: Loans/Create
-        [Authorize]
         public IActionResult Create()
         {
             ViewData["BookId"] = new SelectList(_context.Books, "Id", "ISBN");
@@ -85,7 +85,6 @@ namespace Projekt_BDwAI.Controllers
         //    return View(loan);
         //}
 
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int bookId)

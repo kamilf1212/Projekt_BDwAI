@@ -47,7 +47,7 @@ namespace Projekt_BDwAI.Controllers
         }
 
         // GET: Books/Create
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             LoadDropdowns();
@@ -55,7 +55,7 @@ namespace Projekt_BDwAI.Controllers
         }
 
         // POST: Books/Create
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Book book)
@@ -72,7 +72,7 @@ namespace Projekt_BDwAI.Controllers
         }
 
         // GET: Books/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,7 +91,7 @@ namespace Projekt_BDwAI.Controllers
         }
 
         // POST: Books/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Book book)
@@ -121,7 +121,7 @@ namespace Projekt_BDwAI.Controllers
         }
 
         // GET: Books/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

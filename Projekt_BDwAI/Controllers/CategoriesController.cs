@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Projekt_BDwAI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private readonly Project_context _context;
@@ -45,7 +46,6 @@ namespace Projekt_BDwAI.Controllers
         }
 
         // GET: Categories/Create
-        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -54,7 +54,6 @@ namespace Projekt_BDwAI.Controllers
         // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description")] Category category)
