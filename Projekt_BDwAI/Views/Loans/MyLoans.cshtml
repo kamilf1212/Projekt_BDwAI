@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Projekt_BDwAI.Models.Loan>
+
+<h2>Moje wypożyczenia</h2>
+
+@if (!Model.Any())
+{
+    <p>Nie masz żadnych wypożyczeń.</p>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>Książka</th>
+            <th>Data wypożyczenia</th>
+        </tr>
+
+        @foreach (var loan in Model)
+        {
+            <tr>
+                <td>@loan.Book.Title</td>
+                <td>@loan.LoanDate.ToShortDateString()</td>
+            </tr>
+        }
+    </table>
+}
