@@ -34,8 +34,11 @@ public static class DbInitializer
         // KSIĄŻKI
         if (!context.Books.Any())
         {
-            var author1 = context.Authors.First();
-            var category1 = context.Categories.First();
+            var mickiewicz = context.Authors.First(a => a.Name == "Adam Mickiewicz");
+            var sienkiewicz = context.Authors.First(a => a.Name == "Henryk Sienkiewicz");
+
+            var powiesc = context.Categories.First(c => c.Name == "Powieść");
+            var poezja = context.Categories.First(c => c.Name == "Poezja");
 
             var books = new List<Book>
             {
@@ -43,8 +46,22 @@ public static class DbInitializer
                 {
                     Title = "Pan Tadeusz",
                     ISBN = "1234567890123",
-                    AuthorId = author1.Id,
-                    CategoryId = category1.Id
+                    AuthorId = mickiewicz.Id,
+                    CategoryId = poezja.Id
+                },
+                new Book
+                {
+                    Title = "Quo Vadis",
+                    ISBN = "1234567890125",
+                    AuthorId = sienkiewicz.Id,
+                    CategoryId = powiesc.Id
+                },
+                new Book
+                {
+                    Title = "Potop",
+                    ISBN = "1234567890126",
+                    AuthorId = sienkiewicz.Id,
+                    CategoryId = powiesc.Id
                 }
             };
 
