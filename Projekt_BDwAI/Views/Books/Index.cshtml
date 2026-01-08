@@ -6,9 +6,12 @@
 
 <h1>Lista książek</h1>
 
-<p>
-    <a asp-action="Create">Dodaj książkę</a>
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create">Dodaj książkę</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -49,13 +52,13 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Szczegóły</a> |
                     @if (User.IsInRole("Admin"))
                     {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edytuj</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edytuj</a> <text> |</text>
                         <a asp-action="Delete" asp-route-id="@item.Id">Usuń</a>
                     }
-                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    @if (User.IsInRole("User"))
                     {
                         <form asp-controller="Loans"
                               asp-action="Create"
