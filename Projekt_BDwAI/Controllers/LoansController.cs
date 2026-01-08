@@ -38,8 +38,6 @@ namespace Projekt_BDwAI.Controllers
             return View(loans);
         }
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Return(int id)
@@ -66,44 +64,7 @@ namespace Projekt_BDwAI.Controllers
             return RedirectToAction(nameof(MyLoans));
         }
 
-
-        // GET: Loans
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index()
-        {
-            var project_context = _context.Loans.Include(l => l.Book);
-            return View(await project_context.ToListAsync());
-        }
-
-        // GET: Loans/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var loan = await _context.Loans
-                .Include(l => l.Book)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (loan == null)
-            {
-                return NotFound();
-            }
-
-            return View(loan);
-        }
-
-        // GET: Loans/Create
-        public IActionResult Create()
-        {
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "ISBN");
-            return View();
-        }
-
-        // POST: Loans/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int bookId)
@@ -124,78 +85,6 @@ namespace Projekt_BDwAI.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(MyLoans));
-        }
-
-        // GET: Loans/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var loan = await _context.Loans.FindAsync(id);
-            if (loan == null)
-            {
-                return NotFound();
-            }
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "ISBN", loan.BookId);
-            return View(loan);
-        }
-
-        // POST: Loans/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BookId,UserId,LoanDate,ReturnDate")] Loan loan)
-        {
-            if (id != loan.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(loan);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LoanExists(loan.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "ISBN", loan.BookId);
-            return View(loan);
-        }
-
-        // GET: Loans/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var loan = await _context.Loans
-                .Include(l => l.Book)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (loan == null)
-            {
-                return NotFound();
-            }
-
-            return View(loan);
         }
 
         // POST: Loans/Delete/5
