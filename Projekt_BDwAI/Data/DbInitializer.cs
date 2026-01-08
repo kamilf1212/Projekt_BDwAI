@@ -47,21 +47,24 @@ public static class DbInitializer
                     Title = "Pan Tadeusz",
                     ISBN = "1234567890123",
                     AuthorId = mickiewicz.Id,
-                    CategoryId = poezja.Id
-                },
+                    CategoryId = poezja.Id,
+                    Quantity = 5
+            },
                 new Book
                 {
                     Title = "Quo Vadis",
                     ISBN = "1234567890125",
                     AuthorId = sienkiewicz.Id,
-                    CategoryId = powiesc.Id
+                    CategoryId = powiesc.Id,
+                    Quantity = 3
                 },
                 new Book
                 {
                     Title = "Potop",
                     ISBN = "1234567890126",
                     AuthorId = sienkiewicz.Id,
-                    CategoryId = powiesc.Id
+                    CategoryId = powiesc.Id,
+                    Quantity = 2
                 }
             };
 

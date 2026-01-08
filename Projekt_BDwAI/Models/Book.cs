@@ -24,6 +24,8 @@ namespace Projekt_BDwAI.Models
         [Display(Name = "Kategoria")]
         public int CategoryId { get; set; }
         public Category? Category { get; set; }
-
+        [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Ilość książek nie może być mniejsza niż 0.")]
+        public int Quantity { get; set; } = 1;
     }
 }

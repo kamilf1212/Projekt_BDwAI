@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Projekt_BDwAI.Data;
 
@@ -10,9 +11,11 @@ using Projekt_BDwAI.Data;
 namespace Projekt_BDwAI.Migrations
 {
     [DbContext(typeof(Project_context))]
-    partial class Project_contextModelSnapshot : ModelSnapshot
+    [Migration("20260108124408_AddBookQuantity")]
+    partial class AddBookQuantity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.1");

@@ -22,7 +22,7 @@ namespace Projekt_BDwAI.Controllers
             _context = context;
             _userManager = userManager;
         }
-
+        // GET: Loans/MyLoans
         public async Task<IActionResult> MyLoans()
         {
             var userId = _userManager.GetUserId(User);
@@ -38,6 +38,7 @@ namespace Projekt_BDwAI.Controllers
             return View(loans);
         }
 
+        // POST: Loans/Return/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Return(int id)
@@ -58,13 +59,15 @@ namespace Projekt_BDwAI.Controllers
                 return BadRequest("Książka już została oddana.");
 
             loan.ReturnDate = DateTime.Now;
+            if(loan.Book != null)
+                loan.Book.Quantity++;
 
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(MyLoans));
         }
 
-        // POST: Create
+        // POST: Loans/Create (loan book)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int bookId)
@@ -81,48 +84,19 @@ namespace Projekt_BDwAI.Controllers
                 LoanDate = DateTime.Now
             };
 
+            var book = await _context.Books.FindAsync(bookId);
+
+            if (book == null)
+                return NotFound();
+
+            if (book.Quantity <= 0)
+                return BadRequest("Brak dostępnych egzemplarzy.");
+
+            book.Quantity--;
             _context.Loans.Add(loan);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(MyLoans));
-        }
-
-        // POST: Loans/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var loan = await _context.Loans.FindAsync(id);
-            if (loan != null)
-            {
-                _context.Loans.Remove(loan);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool LoanExists(int id)
-        {
-            return _context.Loans.Any(e => e.Id == id);
-        }
-
-        // FORM
-        [HttpGet]
-        public IActionResult Form()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Form(Loan loan)
-        {
-            return View("Wynik", loan);
-        }
-
-        public IActionResult Wynik(Loan loan)
-        {
-            return View(loan);
         }
     }
 }
