@@ -10,10 +10,13 @@ namespace Projekt_BDwAI.Models
 
         [Required]
         [StringLength(200)]
+        [Display(Name = "Tytuł")]
         public string Title { get; set; }
 
         [Required]
+        [Display(Name = "Autor")]
         public int AuthorId { get; set; }
+        [Display(Name = "Autor")]
         public Author? Author { get; set; }
 
         [Required]
@@ -23,9 +26,12 @@ namespace Projekt_BDwAI.Models
         [Required]
         [Display(Name = "Kategoria")]
         public int CategoryId { get; set; }
+        [Display(Name = "Kategoria")]
         public Category? Category { get; set; }
+
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Ilość książek nie może być mniejsza niż 0.")]
+        [Display(Name = "Ilość")]
         public int Quantity { get; set; } = 1;
     }
 }
