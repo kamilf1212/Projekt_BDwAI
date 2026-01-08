@@ -2,9 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Projekt_BDwAI.Areas.Identity.Data;
 using Projekt_BDwAI.Data;
-using Projekt_BDwAI.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 
 
 namespace Projekt_BDwAI
@@ -14,14 +11,10 @@ namespace Projekt_BDwAI
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            //var connectionString = builder.Configuration.GetConnectionString("Project_contextConnection") ?? throw new InvalidOperationException("Connection string 'Project_contextConnection' not found."); ;
-
 
             builder.Services.AddDbContext<Project_context>(options => options.UseSqlite(builder.Configuration.GetConnectionString("Project_contextConnection")));
 
-            //builder.Services.AddDbContext<Project_context>(options => options.UseSqlite(connectionString));
-
-            // required confirmed account false to login without email confirmation
+            // RequireConfirmedAccount = false - to login without email confirmation
             builder.Services
                 .AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
@@ -56,16 +49,14 @@ namespace Projekt_BDwAI
             app.MapRazorPages();
             app.MapStaticAssets();
 
-            // Ensure DB schema is up-to-date and run seeding (awaited)
+            // Ensure DB schema is up-to-date and run seeding
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<Project_context>();
-                await db.Database.MigrateAsync(); // apply migrations
+                await db.Database.MigrateAsync();
 
                 DbInitializer.Seed(db);
-
-                await SeedData.InitializeAsync(scope);
-                //await Task.Run(() => SeedData.Initialize(scope));
+                await DbInitializer.SeedUsers(scope);
             }
 
             app.Run();

@@ -1,4 +1,6 @@
-﻿using Projekt_BDwAI.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Projekt_BDwAI.Areas.Identity.Data;
+using Projekt_BDwAI.Data;
 using Projekt_BDwAI.Models;
 
 public static class DbInitializer
@@ -48,6 +50,56 @@ public static class DbInitializer
 
             context.Books.AddRange(books);
             context.SaveChanges();
+        }
+    }
+
+    public static async Task SeedUsers(IServiceScope scope)
+    {
+        var services = scope.ServiceProvider;
+
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+        var roles = new[] { "Admin", "User" };
+        foreach (var role in roles)
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role));
+            }
+        }
+
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+
+        // ADMINISTRATOR
+        string adminEmail = "admin@admin.com";
+        string adminPassword = "Admin123!";
+        if (await userManager.FindByEmailAsync(adminEmail) == null)
+        {
+            var adminUser = new User
+            {
+                FirstName = "Jan",
+                LastName = "Kowalski",
+                Email = adminEmail,
+                UserName = adminEmail
+            };
+            await userManager.CreateAsync(adminUser, adminPassword);
+            await userManager.AddToRoleAsync(adminUser, "Admin");
+        }
+
+        // STANDARDOWY UŻYTKOWNIK
+        string userEmail = "user@user.com";
+        string userPassword = "User123!";
+        if (await userManager.FindByEmailAsync(userEmail) == null)
+        {
+            var standardUser = new User
+            {
+                FirstName = "Michał",
+                LastName = "Kowalski",
+                Email = userEmail,
+                UserName = userEmail
+            };
+            await userManager.CreateAsync(standardUser, userPassword);
+            await userManager.AddToRoleAsync(standardUser, "User");
         }
     }
 }
