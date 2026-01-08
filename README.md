@@ -1,1 +1,1 @@
-# Projekt_BDwAI
+[Dokumentacja projektu](Projekt_BDwAI/Dokumentacja.docx)
