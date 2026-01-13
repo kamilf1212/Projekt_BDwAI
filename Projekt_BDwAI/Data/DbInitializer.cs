@@ -48,7 +48,7 @@ public static class DbInitializer
                     ISBN = "1234567890123",
                     AuthorId = mickiewicz.Id,
                     CategoryId = poezja.Id,
-                    Quantity = 5
+                    Quantity = 1
             },
                 new Book
                 {
@@ -56,7 +56,7 @@ public static class DbInitializer
                     ISBN = "1234567890125",
                     AuthorId = sienkiewicz.Id,
                     CategoryId = powiesc.Id,
-                    Quantity = 3
+                    Quantity = 1
                 },
                 new Book
                 {
